@@ -1,0 +1,119 @@
+﻿@using System.Data
+@model DataTable
+@{ 
+    string currentSite = ViewBag.CurrentSite; 
+    bool isViewAll = ViewBag.IsViewAll ?? false;
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">👨‍🎓 QUẢN LÝ SINH VIÊN (Site: @currentSite)</h2>
+
+    <!-- THANH CÔNG CỤ: CHUYỂN CHẾ ĐỘ XEM -->
+    <div class="card mb-3 p-2 bg-info bg-opacity-10 border-info">
+        <form method="get" action="/Home/Index">
+            <div class="d-flex align-items-center">
+                <span class="me-2 fw-bold">Chế độ xem:</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="switchAll" name="all" value="true" 
+                           @(isViewAll ? "checked" : "") onchange="this.form.submit()">
+                    <label class="form-check-label fw-bold text-primary" for="switchAll">
+                        @(isViewAll ? "🌐 Xem TOÀN TRƯỜNG (Cả 3 khoa)" : "🏠 Chỉ xem KHOA NHÀ")
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- KHU VỰC HIỂN THỊ THÔNG BÁO -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>✅ Thành công!</strong> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>❌ Thất bại!</strong> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- CỘT TRÁI: FORM THÊM -->
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm border-success">
+                <h5 class="text-success text-center">Thêm Sinh Viên Mới</h5>
+                <p class="text-muted small text-center">(Mã SV sẽ được hệ thống tự động sinh)</p>
+                <hr>
+                <form method="post" action="/Home/ThemSV">
+                    <div class="mb-2">
+                        <label class="fw-bold">Mã SV</label>
+                        <!-- Ô này bị khóa (disabled) để user không nhập -->
+                        <input type="text" class="form-control bg-light fst-italic" value="(Tự động: 25KT...)" disabled readonly />
+                    </div>
+                    <div class="mb-2">
+                        <label class="fw-bold">Họ Tên</label>
+                        <input type="text" name="hoten" class="form-control" required placeholder="Nhập họ tên..." />
+                    </div>
+                    <div class="mb-2">
+                        <label class="fw-bold">Mã Lớp</label>
+                        <input type="text" name="malop" class="form-control" required placeholder="Nhập mã lớp..." />
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Khoa (Nơi lưu trữ)</label>
+                        <select name="makh" class="form-select">
+                            <option value="CNTT">Công Nghệ Thông Tin</option>
+                            <option value="VT">Viễn Thông</option>
+                            <option value="KT">Kinh Tế</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">💾 Lưu (Auto ID)</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI: DANH SÁCH -->
+        <div class="col-md-8">
+            <div class="card p-3 shadow-sm">
+                <h5>Danh Sách Sinh Viên</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Mã SV</th>
+                                <th>Họ Tên</th>
+                                <th>Lớp</th>
+                                <th>Khoa</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.Rows)
+                            {
+                                <tr>
+                                    <td>@row["MASV"]</td>
+                                    <td>@row["HOTEN"]</td>
+                                    <td>@row["MALOP"]</td>
+                                    <td><span class="badge bg-secondary">@row["MAKH"]</span></td>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a href="/Home/SuaSV?id=@row["MASV"]" class="btn btn-warning btn-sm">✏️ Sửa</a>
+                                            
+                                            <form method="post" action="/Home/XoaSV" onsubmit="return confirm('Bạn có chắc muốn xóa sinh viên @row["HOTEN"]?');">
+                                                <input type="hidden" name="masv" value="@row["MASV"]" />
+                                                <input type="hidden" name="makh" value="@row["MAKH"]" />
+                                                <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

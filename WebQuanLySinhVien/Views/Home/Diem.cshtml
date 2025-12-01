@@ -1,0 +1,112 @@
+﻿@using System.Data
+@model DataTable
+@{
+    string currentSite = ViewBag.CurrentSite;
+    bool isViewAll = ViewBag.IsViewAll ?? false;
+
+    // Lấy danh sách môn học từ Controller gửi sang
+    DataTable listMonHoc = ViewBag.ListMonHoc as DataTable;
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">💯 QUẢN LÝ BẢNG ĐIỂM (Site: @currentSite)</h2>
+
+    <div class="card mb-3 p-2 bg-danger bg-opacity-10 border-danger">
+        <form method="get" action="/Home/Diem">
+            <div class="form-check form-switch d-flex align-items-center">
+                <span class="me-2 fw-bold">Chế độ xem:</span>
+                <input class="form-check-input" type="checkbox" id="switchDiem" name="all" value="true"
+                       @(isViewAll ? "checked" : "") onchange="this.form.submit()">
+                <label class="form-check-label fw-bold text-danger ms-2" for="switchDiem">
+                    @(isViewAll ? "🌐 Xem ĐIỂM TOÀN TRƯỜNG" : "🏠 Xem ĐIỂM KHOA NHÀ")
+                </label>
+            </div>
+        </form>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>✅ Thành công!</strong> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>❌ Thất bại!</strong> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm bg-light border-danger">
+                <h5 class="text-danger text-center">Nhập Điểm</h5>
+                <hr>
+                <form method="post" action="/Home/ThemDiem">
+                    <div class="mb-2">
+                        <label class="fw-bold">Mã Sinh Viên</label>
+                        <input type="text" name="masv" class="form-control" placeholder="VD: SV21" required />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="fw-bold">Môn Học</label>
+                        <select name="mamh" class="form-select" required>
+                            <option value="">-- Chọn Môn Học --</option>
+                            @if (listMonHoc != null)
+                            {
+                                foreach (DataRow mh in listMonHoc.Rows)
+                                {
+                                    <option value="@mh["MAMH"]">@mh["TENMH"] (@mh["MAMH"])</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold">Điểm số</label>
+                        <input type="number" step="0.1" min="0" max="10" name="diemso" class="form-control text-danger fw-bold" placeholder="0 - 10" required />
+                    </div>
+                    <button class="btn btn-danger w-100">💾 Lưu Điểm</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-danger">
+                        <tr>
+                            <th>Mã SV</th>
+                            <th>Mã MH</th>
+                            <th>Điểm</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row in Model.Rows)
+                        {
+                            <tr>
+                                <td>@row["MASV"]</td>
+                                <td>@row["MAMH"]</td>
+                                <td><span class="badge bg-danger fs-6">@row["DIEM"]</span></td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="/Home/SuaDiem?masv=@row["MASV"]&mamh=@row["MAMH"]" class="btn btn-warning btn-sm">✏️ Sửa</a>
+
+                                        <form method="post" action="/Home/XoaDiem" onsubmit="return confirm('Xóa điểm này?');">
+                                            <input type="hidden" name="masv" value="@row["MASV"]" />
+                                            <input type="hidden" name="mamh" value="@row["MAMH"]" />
+                                            <button class="btn btn-secondary btn-sm">🗑️ Xóa</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

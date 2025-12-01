@@ -1,0 +1,84 @@
+﻿@using System.Data
+@model DataTable
+@{
+    string currentSite = ViewBag.CurrentSite;
+    bool isViewAll = ViewBag.IsViewAll ?? false;
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">🏫 QUẢN LÝ LỚP HỌC (Site: @currentSite)</h2>
+
+    <div class="card mb-3 p-2 bg-warning bg-opacity-25 border-warning">
+        <form method="get" action="/Home/Lop">
+            <div class="form-check form-switch d-flex align-items-center">
+                <span class="me-2 fw-bold">Chế độ xem:</span>
+                <input class="form-check-input" type="checkbox" id="switchLop" name="all" value="true"
+                       @(isViewAll ? "checked" : "") onchange="this.form.submit()">
+                <label class="form-check-label fw-bold text-dark ms-2" for="switchLop">
+                    @(isViewAll ? "🌐 Đang xem: TOÀN TRƯỜNG" : "🏠 Đang xem: KHOA NHÀ")
+                </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm border-primary">
+                <h5 class="text-primary text-center">Thêm Lớp Mới</h5>
+                <hr>
+                <form method="post" action="/Home/ThemLop">
+                    <div class="mb-2">
+                        <label class="fw-bold">Mã Lớp</label>
+                        <input type="text" name="malop" class="form-control" placeholder="VD: CC01" required />
+                    </div>
+                    <div class="mb-2">
+                        <label class="fw-bold">Tên Lớp</label>
+                        <input type="text" name="tenlop" class="form-control" placeholder="Tên Lớp" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Khoa</label>
+                        <select name="makh" class="form-select">
+                            <option value="CNTT">CNTT</option>
+                            <option value="VT">Viễn Thông</option>
+                            <option value="KT">Kinh Tế</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary w-100">💾 Lưu Lớp</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <table class="table table-bordered table-striped text-center align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Mã Lớp</th>
+                        <th>Tên Lớp</th>
+                        <th>Khoa</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            <td>@row["MALOP"]</td>
+                            <td>@row["TENLOP"]</td>
+                            <td><span class="badge bg-info text-dark">@row["MAKH"]</span></td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="/Home/SuaLop?id=@row["MALOP"]" class="btn btn-warning btn-sm">✏️ Sửa</a>
+                                    <form method="post" action="/Home/XoaLop" onsubmit="return confirm('Cảnh báo: Không thể xóa lớp nếu đang có sinh viên học!');">
+                                        <input type="hidden" name="malop" value="@row["MALOP"]" />
+                                        <input type="hidden" name="makh" value="@row["MAKH"]" />
+                                        <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
