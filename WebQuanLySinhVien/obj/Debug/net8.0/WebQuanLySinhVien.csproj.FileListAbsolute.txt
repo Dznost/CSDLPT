@@ -39,3 +39,4 @@ C:\Users\bao1v\source\repos\WebQuanLySinhVien\WebQuanLySinhVien\obj\Debug\net8.0
 C:\Users\bao1v\source\repos\WebQuanLySinhVien\WebQuanLySinhVien\obj\Debug\net8.0\WebQuanLySinhVien.pdb
 C:\Users\bao1v\source\repos\WebQuanLySinhVien\WebQuanLySinhVien\obj\Debug\net8.0\WebQuanLySinhVien.genruntimeconfig.cache
 C:\Users\bao1v\source\repos\WebQuanLySinhVien\WebQuanLySinhVien\obj\Debug\net8.0\ref\WebQuanLySinhVien.dll
+C:\Users\bao1v\source\repos\WebQuanLySinhVien\WebQuanLySinhVien\obj\Debug\net8.0\WebQuanLySinhVien.sourcelink.json
