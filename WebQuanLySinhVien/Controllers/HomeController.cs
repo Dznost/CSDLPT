@@ -59,6 +59,7 @@ namespace WebQuanLySinhVien.Controllers
             }
             catch (Exception ex)
             {
+                // Bắt lỗi từ SQL (ví dụ: Mã SV trùng, Lớp không tồn tại...)
                 TempData["Error"] = "Lỗi: " + ex.Message;
             }
 
@@ -132,12 +133,19 @@ namespace WebQuanLySinhVien.Controllers
             try
             {
                 SqlParameter[] p = {
-                    new SqlParameter("@MALOP", malop), new SqlParameter("@TENLOP", tenlop), new SqlParameter("@MAKH", makh)
+                    new SqlParameter("@MALOP", malop),
+                    new SqlParameter("@TENLOP", tenlop),
+                    new SqlParameter("@MAKH", makh)
                 };
+                // Gọi SP có logic kiểm tra trùng mã
                 SQLHelper.ExecuteSP("SP_THEMLOP", p, currentSite);
                 TempData["Success"] = "Thêm lớp thành công!";
             }
-            catch (Exception ex) { TempData["Error"] = "Lỗi: " + ex.Message; }
+            catch (Exception ex)
+            {
+                // Bắt lỗi trùng mã lớp từ SQL (RAISERROR)
+                TempData["Error"] = "Lỗi: " + ex.Message;
+            }
             return RedirectToAction("Lop");
         }
 
@@ -155,7 +163,6 @@ namespace WebQuanLySinhVien.Controllers
             return RedirectToAction("Lop");
         }
 
-        // --- SỬA LỚP ---
         [HttpGet]
         public IActionResult SuaLop(string id)
         {
@@ -204,12 +211,19 @@ namespace WebQuanLySinhVien.Controllers
             try
             {
                 SqlParameter[] p = {
-                    new SqlParameter("@MAMH", mamh), new SqlParameter("@TENMH", tenmh), new SqlParameter("@MAKH", makh)
+                    new SqlParameter("@MAMH", mamh),
+                    new SqlParameter("@TENMH", tenmh),
+                    new SqlParameter("@MAKH", makh)
                 };
+                // Gọi SP có logic kiểm tra trùng mã
                 SQLHelper.ExecuteSP("SP_THEMMONHOC", p, currentSite);
                 TempData["Success"] = "Thêm môn học thành công!";
             }
-            catch (Exception ex) { TempData["Error"] = "Lỗi: " + ex.Message; }
+            catch (Exception ex)
+            {
+                // Bắt lỗi trùng mã môn từ SQL (RAISERROR)
+                TempData["Error"] = "Lỗi: " + ex.Message;
+            }
             return RedirectToAction("MonHoc");
         }
 
@@ -227,7 +241,6 @@ namespace WebQuanLySinhVien.Controllers
             return RedirectToAction("MonHoc");
         }
 
-        // --- SỬA MÔN HỌC ---
         [HttpGet]
         public IActionResult SuaMonHoc(string id)
         {
@@ -264,16 +277,11 @@ namespace WebQuanLySinhVien.Controllers
             ViewBag.CurrentSite = currentSite;
             ViewBag.IsViewAll = all;
 
-            // 1. Lấy dữ liệu Bảng Điểm (Xem All hoặc Xem Local)
-            string queryDiem = all ? "SELECT * FROM v_DIEM_ALL" : "SELECT * FROM DIEM";
-            DataTable dt = SQLHelper.GetData(queryDiem, currentSite);
-
-            // 2. Lấy danh sách Môn học cho ComboBox
-            // [SỬA ĐỔI] Chỉ lấy môn học trong bảng MONHOC (Local) để người dùng chỉ chọn được môn khoa mình
-            // Nếu muốn xem môn toàn trường để nhập thì đổi thành v_MONHOC_ALL, nhưng ở đây dùng MONHOC để an toàn.
+            string query = all ? "SELECT * FROM v_DIEM_ALL" : "SELECT * FROM DIEM";
+            DataTable dt = SQLHelper.GetData(query, currentSite);
+            // Lấy danh sách môn học từ Local hoặc Global tuỳ ý, ở đây lấy Local để đảm bảo chọn môn đúng khoa
             DataTable dtMonHoc = SQLHelper.GetData("SELECT * FROM MONHOC", currentSite);
             ViewBag.ListMonHoc = dtMonHoc;
-
             return View(dt);
         }
 
@@ -284,15 +292,14 @@ namespace WebQuanLySinhVien.Controllers
             try
             {
                 SqlParameter[] p = {
-                    new SqlParameter("@MASV", masv), new SqlParameter("@MAMH", mamh), new SqlParameter("@DIEM", diemso)
+                    new SqlParameter("@MASV", masv),
+                    new SqlParameter("@MAMH", mamh),
+                    new SqlParameter("@DIEM", diemso)
                 };
                 SQLHelper.ExecuteSP("SP_THEMDIEM", p, currentSite);
                 TempData["Success"] = "Thêm điểm thành công!";
             }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "Lỗi: " + ex.Message;
-            }
+            catch (Exception ex) { TempData["Error"] = "Lỗi: " + ex.Message; }
             return RedirectToAction("Diem");
         }
 
@@ -310,19 +317,14 @@ namespace WebQuanLySinhVien.Controllers
             return RedirectToAction("Diem");
         }
 
-        // --- SỬA ĐIỂM ---
         [HttpGet]
         public IActionResult SuaDiem(string masv, string mamh)
         {
             if (HttpContext.Session.GetString("User") == null) return RedirectToAction("Index", "Login");
             string site = HttpContext.Session.GetString("CurrentSite") ?? "CNTT";
-
-            // Tìm điểm cũ
             string query = $"SELECT * FROM v_DIEM_ALL WHERE MASV='{masv}' AND MAMH='{mamh}'";
             DataTable dt = SQLHelper.GetData(query, site);
-
             if (dt.Rows.Count > 0) return View(dt.Rows[0]);
-
             TempData["Error"] = "Không tìm thấy điểm!";
             return RedirectToAction("Diem");
         }

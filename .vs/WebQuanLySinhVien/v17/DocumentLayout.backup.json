@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9DBF0CEB-16A4-400E-AAF8-04BA803D9909}|WebQuanLySinhVien\\WebQuanLySinhVien.csproj|c:\\users\\bao1v\\source\\repos\\webquanlysinhvien\\webquanlysinhvien\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9DBF0CEB-16A4-400E-AAF8-04BA803D9909}|WebQuanLySinhVien\\WebQuanLySinhVien.csproj|solutionrelative:webquanlysinhvien\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9DBF0CEB-16A4-400E-AAF8-04BA803D9909}|WebQuanLySinhVien\\WebQuanLySinhVien.csproj|c:\\users\\bao1v\\source\\repos\\webquanlysinhvien\\webquanlysinhvien\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9DBF0CEB-16A4-400E-AAF8-04BA803D9909}|WebQuanLySinhVien\\WebQuanLySinhVien.csproj|solutionrelative:webquanlysinhvien\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9DBF0CEB-16A4-400E-AAF8-04BA803D9909}|WebQuanLySinhVien\\WebQuanLySinhVien.csproj|c:\\users\\bao1v\\source\\repos\\webquanlysinhvien\\webquanlysinhvien\\webquanlysinhvien.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{9DBF0CEB-16A4-400E-AAF8-04BA803D9909}|WebQuanLySinhVien\\WebQuanLySinhVien.csproj|solutionrelative:webquanlysinhvien\\webquanlysinhvien.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\WebQuanLySinhVien\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WebQuanLySinhVien\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\WebQuanLySinhVien\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WebQuanLySinhVien\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABMAAAAAAAAAAAAwwE0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T05:34:19.991Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\WebQuanLySinhVien\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "WebQuanLySinhVien\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\WebQuanLySinhVien\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "WebQuanLySinhVien\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAACABAAAAAAAAAAAxwFABAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T16:53:30.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WebQuanLySinhVien",
+              "DocumentMoniker": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\WebQuanLySinhVien\\WebQuanLySinhVien.csproj",
+              "RelativeDocumentMoniker": "WebQuanLySinhVien\\WebQuanLySinhVien.csproj",
+              "ToolTip": "C:\\Users\\bao1v\\source\\repos\\WebQuanLySinhVien\\WebQuanLySinhVien\\WebQuanLySinhVien.csproj",
+              "RelativeToolTip": "WebQuanLySinhVien\\WebQuanLySinhVien.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-01T16:53:25.821Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
